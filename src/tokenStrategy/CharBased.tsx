@@ -1,9 +1,9 @@
 
-export class charBased {
+export class CharTokenizer {
     private mapping = new Map<string, number>();
     private reverseMapping = new Map<number, string>();
 
-    distributeTokens(text: string) : void {
+    mapTokens(text: string) : void {
         this.mapping.clear();
         this.reverseMapping.clear();
         

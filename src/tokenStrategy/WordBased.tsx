@@ -1,9 +1,9 @@
 
-export class wordTokenizer {
+export class WordTokenizer {
     private mapping = new Map<string, number>();
     private reverseMapping = new Map<number, string>();
 
-    distributeTokens(text: string): void {
+    mapTokens(text: string): void {
         this.mapping.clear();
         this.reverseMapping.clear();
 
