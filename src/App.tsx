@@ -91,7 +91,54 @@ function App() {
   const tokenzeText = () => {
     setTokenIds(tokenizerResult.tokens.join(', '));
   }
-  
+
+  const deTokenizeIds = () => {
+    try {
+      const ids = tokenIds.split(',')
+      .map(id => id.trim())
+      .filter(id => id !== '')
+      .map(id => parseInt(id))
+      .filter(id => !isNaN(id))
+    
+      let text = ''
+
+      switch (tokenizerType) {
+        case 'bpe':
+          text = bpeTokenizer.detokenize(ids)
+          break
+        
+        case 'word':
+          text = wordTokenizer.deTokenize(ids)
+          break
+        
+        case 'character':
+          text = charTokenizer.deTokenize(ids)
+          break
+      }
+
+      //validate round trip correctness
+      if (tokenizerType === 'bpe') {
+        const validation = bpeTokenizer.validateRoundTrip(inputText)
+        setValidationResult(validation);
+      }
+
+      setInputText(text)
+  }catch (error) {
+      console.log('Error in detokenizing:', error)
+      alert('Error: Please enter a valid comma-separated list of token IDs.')
+    }
+  }
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+    //show toast notification
+    const toast = document.createElement('div');
+    toast.textContent = 'Copied to clipboard!';
+    toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+    document.body.appendChild(toast)
+    setTimeout(() => document.body.removeChild(toast), 2000);;
+  }
+
 
   return (
     <div className='bg-red-400'>Appkjnsdkjfnn</div>
