@@ -1,33 +1,35 @@
+// Character-level tokenizer
+export class CharacterTokenizer {
+  private vocabulary: Map<string, number> = new Map();
+  private reverseVocabulary: Map<number, string> = new Map();
 
-export class CharTokenizer {
-    private mapping = new Map<string, number>();
-    private reverseMapping = new Map<number, string>();
+  train(text: string): void {
+    this.vocabulary.clear();
+    this.reverseVocabulary.clear();
 
-    mapTokens(text: string) : void {
-        this.mapping.clear();
-        this.reverseMapping.clear();
-        
-        const uniqueTokens = [...new Set(text)].sort();
+    // Get all unique characters
+    const uniqueChars = [...new Set(text)].sort();
 
-        uniqueTokens.forEach((token, index) => {
-            this.mapping.set(token, index);
-            this.reverseMapping.set(index, token);
-        })
-    }
+    // Build vocabulary
+    uniqueChars.forEach((char, index) => {
+      this.vocabulary.set(char, index);
+      this.reverseVocabulary.set(index, char);
+    });
+  }
 
-    tokenize(text: string): number[] {
-        return Array.from(text).map(char => this.mapping.get(char) || 0);
-    }
+  tokenize(text: string): number[] {
+    return Array.from(text).map(char => this.vocabulary.get(char) || 0);
+  }
 
-    deTokenize(tokens: number[]): string {
-        return tokens.map(token => this.reverseMapping.get(token) || '').join('');
-    }
+  detokenize(tokenIds: number[]): string {
+    return tokenIds.map(id => this.reverseVocabulary.get(id) || '').join('');
+  }
 
-    getMapping(): Map<string, number> {
-        return new Map(this.mapping);
-    }
+  getVocabulary(): Map<string, number> {
+    return new Map(this.vocabulary);
+  }
 
-    getReverseMapping(): Map<number, string> {
-        return new Map(this.reverseMapping);
-    }
+  getReverseVocabulary(): Map<number, string> {
+    return new Map(this.reverseVocabulary);
+  }
 }
