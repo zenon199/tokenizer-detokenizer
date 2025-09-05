@@ -51,7 +51,6 @@ export class BPETokenizer {
    * Validates the encode/decode correctness
    */
   validateRoundTrip(text: string): ValidationResult {
-    const startTime = performance.now();
     
     try {
       // Encode
@@ -369,7 +368,7 @@ export class BPETokenizer {
     };
 
     let totalLength = 0;
-    for (const [token, id] of this.vocabulary.entries()) {
+    for (const [token] of this.vocabulary.entries()) {
       if (this.config.specialTokens.includes(token)) {
         continue;
       }

@@ -11,6 +11,12 @@ interface TokenizerResult {
   vocabulary: Map<string, number>;
   reverseVocabulary: Map<number, string>;
   merges?: Array<[string, string]>;
+  stats?: {
+    compressionRatio: number;
+    trainingTime: number;
+    tokenizationTime: number;
+    vocabularyEfficiency: number;
+  };
 }
 
 function App() {
@@ -200,8 +206,8 @@ ASCII Art:
       'bg-cyan-100 text-cyan-800 border-cyan-200',
     ];
 
-    const tokenElements: JSX.Element[] = [];
-    let charIndex = 0;
+    const tokenElements: React.JSX.Element[] = [];
+    
 
     for (let i = 0; i < tokenizerResult.tokens.length; i++) {
       const tokenId = tokenizerResult.tokens[i];
